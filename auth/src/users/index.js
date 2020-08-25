@@ -3,6 +3,7 @@ const q2m = require("query-to-mongo")
 const { basic, adminOnly } = require("../auth")
 
 const UserSchema = require("./schema")
+const { findOneAndDelete, findOneAndRemove } = require("./schema")
 
 const usersRouter = express.Router()
 
@@ -60,9 +61,10 @@ usersRouter.put("/me", basic, async (req, res, next) => {
     }
 })
 
-usersRouter.delete("/me", basic, async (req, res, next) => {
+usersRouter.delete("/me/userName", basic, async (req, res, next) => {
     try {
-        await req.user.remove()
+        const username = req.body.username
+        const user = await findOneAndRemove(username)
         res.send("Deleted")
     } catch (error) {
         next(error)

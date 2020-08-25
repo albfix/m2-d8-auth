@@ -64,7 +64,7 @@ usersRouter.put("/me", basic, async (req, res, next) => {
 usersRouter.delete("/me/userName", basic, async (req, res, next) => {
     try {
         const username = req.body.username
-        const user = await findOneAndRemove(username)
+        const user = await findOneAndDelete(username)
         res.send("Deleted")
     } catch (error) {
         next(error)
